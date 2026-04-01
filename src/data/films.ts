@@ -104,7 +104,7 @@ export const films: Film[] = [
   },
   {
     id: 'film-4',
-    title: 'L\'Ombre du Pouvoir !',
+    title: 'L\'Ombre du Pouvoir',
     year: 2024,
     tagline: 'Premières images d’un projet de long métrage.\nUn thriller politique autour de l’identité et du pouvoir.',
     posterUrl: '/assets/posters/film4.webp',
