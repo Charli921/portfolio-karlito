@@ -11,6 +11,9 @@ export default function HoverVideoThumb({ posterUrl, videoUrl, alt = "" }: Props
   const [hover, setHover] = useState(false);
   const [shouldLoad, setShouldLoad] = useState(false);
 
+  // Fragments YouTube : pas d'aperçu vidéo au survol, juste la miniature statique.
+  const isYouTube = videoUrl.includes("youtube.com/embed");
+
   const onEnter = () => {
     setShouldLoad(true);   // ✅ charge dès le 1er hover (pas via useEffect)
     setHover(true);
@@ -33,6 +36,17 @@ export default function HoverVideoThumb({ posterUrl, videoUrl, alt = "" }: Props
       v.pause();
     }
   }, [hover, shouldLoad]);
+
+  if (isYouTube) {
+    return (
+      <img
+        src={posterUrl}
+        alt={alt}
+        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-80 group-hover/fragment:opacity-100"
+        loading="lazy"
+      />
+    );
+  }
 
   return (
     <div

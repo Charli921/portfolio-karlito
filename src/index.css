@@ -60,4 +60,147 @@
       transform: translateY(10px) translateX(-50%);
     }
   }
+
+  /* Reveal au scroll : fade-in + slide-up plus marqués (déclenché par .is-visible) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(64px);
+    transition:
+      opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Apparition du nom du Hero, lettre par lettre.
+     L'espacement est porté par une marge à droite de chaque lettre (et aucune
+     sur la dernière) : pas d'espacement de fin, donc centrage parfait via
+     text-align: center, sans marge asymétrique sur le conteneur. */
+  .hero-name-letter {
+    display: inline-block;
+    margin-right: var(--hero-ls, 0);
+    opacity: 0;
+    transform: translateY(0.35em);
+    filter: blur(8px);
+    animation: letterReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .hero-name-letter:last-child {
+    margin-right: 0;
+  }
+
+  @keyframes letterReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  /* Fine ligne séparatrice « générique de film » */
+  .section-rule {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(
+      to right,
+      transparent,
+      theme('colors.gray.800') 50%,
+      transparent
+    );
+  }
+
+  /* Grain cinéma en overlay (généré, sans asset externe) */
+  .film-grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+    animation: grainShift 0.6s steps(2) infinite;
+  }
+
+  @keyframes grainShift {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-3%, 2%); }
+    50% { transform: translate(2%, -2%); }
+    75% { transform: translate(-1%, 1%); }
+    100% { transform: translate(0, 0); }
+  }
+
+  /* Titres « affiche de film » : Cormorant Garamond avec ligatures fines */
+  .font-display {
+    font-feature-settings: "kern" 1, "liga" 1, "dlig" 1;
+  }
+
+  /* Prix : texte doré avec un léger reflet qui balaie le libellé */
+  .palmares-award {
+    background: linear-gradient(
+      100deg,
+      theme('colors.laurel') 0%,
+      #f4e4bc 45%,
+      theme('colors.laurel') 55%,
+      theme('colors.laurel') 100%
+    );
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: laurelShimmer 5s ease-in-out infinite;
+  }
+
+  @keyframes laurelShimmer {
+    0%, 100% { background-position: 150% 0; }
+    50% { background-position: -50% 0; }
+  }
+
+  /* Pulsation très discrète de l'icône laurier du prix */
+  .laurel-pulse {
+    animation: laurelPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes laurelPulse {
+    0%, 100% { opacity: 0.75; }
+    50% { opacity: 1; }
+  }
+}
+
+/* Accessibilité : neutralise les animations si l'utilisateur le demande */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .hero-name-letter {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    animation: none !important;
+  }
+
+  .film-grain {
+    animation: none !important;
+  }
+
+  .palmares-award,
+  .laurel-pulse {
+    animation: none !important;
+  }
+
+  .laurel-pulse {
+    opacity: 1 !important;
+  }
+
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-bounce-slow {
+    animation: none !important;
+  }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const navLinks = [
   { label: 'Films', href: '#films' },
@@ -7,27 +7,31 @@ const navLinks = [
 ];
 
 export default function Navigation() {
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  // Masquée par défaut : n'apparaît que lorsqu'on scrolle vers le haut.
+  const [isVisible, setIsVisible] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      if (currentScrollY < 100) {
-        setIsVisible(true);
-      } else if (currentScrollY > lastScrollY) {
+      if (currentScrollY <= 10) {
+        // En haut de page : masquée
         setIsVisible(false);
-      } else {
+      } else if (currentScrollY < lastScrollY.current) {
+        // Scroll vers le haut : visible
         setIsVisible(true);
+      } else if (currentScrollY > lastScrollY.current) {
+        // Scroll vers le bas : masquée
+        setIsVisible(false);
       }
 
-      setLastScrollY(currentScrollY);
+      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -39,8 +43,11 @@ export default function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-500 ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
+      aria-hidden={!isVisible}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
+        isVisible
+          ? 'translate-y-0 opacity-100'
+          : '-translate-y-full opacity-0 pointer-events-none'
       }`}
     >
       <div className="bg-black/40 backdrop-blur-sm border-b border-white/5">

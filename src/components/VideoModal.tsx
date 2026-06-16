@@ -65,15 +65,25 @@ export default function VideoModal({ fragment, filmTitle, onClose }: VideoModalP
           </div>
 
           <div className="relative bg-black aspect-video rounded overflow-hidden">
-            <video
-              className="w-full h-full"
-              controls
-              poster={fragment.posterUrl}
-              preload="metadata"
-            >
-              <source src={fragment.videoUrl} type="video/mp4" />
-              Votre navigateur ne supporte pas la lecture vidéo.
-            </video>
+            {fragment.videoUrl.includes('youtube.com/embed') ? (
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src={`${fragment.videoUrl}?autoplay=1&rel=0`}
+                title={`${filmTitle} — ${fragment.label}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video
+                className="w-full h-full"
+                controls
+                poster={fragment.posterUrl}
+                preload="metadata"
+              >
+                <source src={fragment.videoUrl} type="video/mp4" />
+                Votre navigateur ne supporte pas la lecture vidéo.
+              </video>
+            )}
           </div>
         </div>
       </div>

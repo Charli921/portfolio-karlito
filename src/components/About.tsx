@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { content } from '../data/content';
+import Reveal from './Reveal';
 
 export default function About() {
   const [imageError, setImageError] = useState(false);
 
   return (
     <section id="regard" className="min-h-screen bg-black py-24 md:py-32 px-6">
-      <div className="max-w-5xl mx-auto">
+      <Reveal className="max-w-5xl mx-auto">
         <div className="grid md:grid-cols-3 gap-12 md:gap-16">
           <div className="md:col-span-1 flex justify-center md:justify-start">
             <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden bg-gray-900 border border-gray-800">
@@ -29,7 +30,7 @@ export default function About() {
           </div>
 
           <div className="md:col-span-2 space-y-12">
-            <h2 className="text-4xl md:text-5xl font-light text-white tracking-wide">
+            <h2 className="font-display text-5xl md:text-6xl font-medium text-white tracking-wide">
               {content.about.title}
             </h2>
 
@@ -45,7 +46,7 @@ export default function About() {
             </div>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

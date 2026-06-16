@@ -1,11 +1,14 @@
 import { Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { content } from '../data/content';
+import Reveal from './Reveal';
+import LogoSignature from './LogoSignature';
 
 export default function Contact() {
   return (
     <section id="contact" className="min-h-screen bg-black py-24 md:py-32 px-6 flex items-center">
-      <div className="max-w-3xl mx-auto w-full space-y-12 text-center">
-        <h2 className="text-3xl md:text-4xl font-light text-white tracking-wide">
+      <Reveal className="max-w-3xl mx-auto w-full space-y-12 text-center">
+        <h2 className="font-display text-4xl md:text-5xl font-medium text-white tracking-wide">
           Contact
         </h2>
 
@@ -23,12 +26,19 @@ export default function Contact() {
           </a>
         </div>
 
-        <div className="pt-12 border-t border-gray-900">
+        <div className="pt-12 border-t border-gray-900 space-y-8">
+          <LogoSignature />
           <p className="text-gray-700 text-xs tracking-widest">
             © {new Date().getFullYear()}
           </p>
+          <Link
+            to="/mentions-legales"
+            className="inline-block text-xs text-gray-500 hover:text-white transition-colors duration-300 focus:outline-none focus:text-white focus:underline underline-offset-4"
+          >
+            Mentions légales
+          </Link>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
