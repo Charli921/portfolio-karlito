@@ -1,6 +1,17 @@
+import { useState } from 'react';
 import { content } from '../data/content';
+import VideoModal from './VideoModal';
+
+const showreelFragment = {
+  label: 'Bande démo',
+  videoUrl: '/assets/SHOWREEL_V2.mp4',
+  posterUrl: '/assets/posters/film3.jpg',
+  durationSec: 0,
+};
 
 export default function Hero() {
+  const [showreelOpen, setShowreelOpen] = useState(false);
+
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const element = document.querySelector('#films');
@@ -21,6 +32,28 @@ export default function Hero() {
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-x-hidden overflow-y-hidden bg-black">
+      {/* Showreel en fond : vidéo en loop muette sur desktop, image de
+          fallback sur mobile (autoplay vidéo peu fiable / coûteux en data). */}
+      <video
+        className="hidden sm:block absolute inset-0 w-full h-full object-cover pointer-events-none"
+        src="/assets/showreel.mp4"
+        poster="/assets/posters/film3.jpg"
+        autoPlay
+        loop
+        muted
+        playsInline
+        aria-hidden="true"
+      />
+      <img
+        className="block sm:hidden absolute inset-0 w-full h-full object-cover pointer-events-none"
+        src="/assets/posters/film3.jpg"
+        alt=""
+        aria-hidden="true"
+      />
+
+      {/* Voile noir pour assombrir le showreel et garder le contenu lisible */}
+      <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+
       <div className="absolute inset-0 bg-gradient-radial from-transparent to-black/60 pointer-events-none" />
       <div className="film-grain" aria-hidden="true" />
 
@@ -65,9 +98,9 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* 4. Le lien, avec une ligne animée au survol / focus */}
+        {/* 4. Les liens, avec une ligne animée au survol / focus */}
         <div
-          className="animate-fade-in"
+          className="animate-fade-in flex flex-wrap items-center justify-center gap-x-10 gap-y-4"
           style={{ animationDelay: `${ctaDelay}s`, animationFillMode: 'both' }}
         >
           <button
@@ -80,8 +113,27 @@ export default function Hero() {
               className="absolute -bottom-1.5 left-0 h-px w-full bg-white origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
             />
           </button>
+
+          <button
+            onClick={() => setShowreelOpen(true)}
+            className="group relative inline-block text-sm tracking-widest uppercase text-gray-300 hover:text-white transition-colors duration-500 focus:outline-none focus-visible:text-white"
+          >
+            {content.hero.ctaShowreel}
+            <span
+              aria-hidden="true"
+              className="absolute -bottom-1.5 left-0 h-px w-full bg-white origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+            />
+          </button>
         </div>
       </div>
+
+      {showreelOpen && (
+        <VideoModal
+          fragment={showreelFragment}
+          filmTitle="Charles Dutel"
+          onClose={() => setShowreelOpen(false)}
+        />
+      )}
 
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce-slow">
         <div className="w-px h-16 bg-gradient-to-b from-transparent via-gray-600 to-transparent" />

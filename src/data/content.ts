@@ -3,7 +3,8 @@ export const content = {
     quote: "Un film naît d’une idée, puis de s’y accrocher contre vents et marées.",
     name: "Charles Dutel",
     roles: "Réalisateur, Scénariste",
-    cta: "Voir les films"
+    cta: "Voir les films",
+    ctaShowreel: "Voir la bande démo"
   },
   about: {
     title: "Mon Regard",
