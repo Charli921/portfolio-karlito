@@ -77,7 +77,7 @@ export default function VideoModal({ fragment, filmTitle, onClose }: VideoModalP
               <video
                 className="w-full h-full"
                 controls
-                poster={fragment.posterUrl}
+                poster={fragment.posterUrl || undefined}
                 preload="metadata"
               >
                 <source src={fragment.videoUrl} type="video/mp4" />

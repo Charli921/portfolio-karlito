@@ -5,7 +5,7 @@ import VideoModal from './VideoModal';
 const showreelFragment = {
   label: 'Bande démo',
   videoUrl: '/assets/SHOWREEL_V2.mp4',
-  posterUrl: '/assets/posters/film3.jpg',
+  posterUrl: '',
   durationSec: 0,
 };
 
@@ -32,22 +32,17 @@ export default function Hero() {
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-x-hidden overflow-y-hidden bg-black">
-      {/* Showreel en fond : vidéo en loop muette sur desktop, image de
-          fallback sur mobile (autoplay vidéo peu fiable / coûteux en data). */}
+      {/* Showreel en fond : vidéo en loop muette sur desktop. Pas de poster :
+          fond noir pendant le chargement (la section est déjà bg-black).
+          Sur mobile on ne charge pas la vidéo (autoplay peu fiable / coûteux
+          en data) — le fond reste simplement noir. */}
       <video
         className="hidden sm:block absolute inset-0 w-full h-full object-cover pointer-events-none"
         src="/assets/showreel.mp4"
-        poster="/assets/posters/film3.jpg"
         autoPlay
         loop
         muted
         playsInline
-        aria-hidden="true"
-      />
-      <img
-        className="block sm:hidden absolute inset-0 w-full h-full object-cover pointer-events-none"
-        src="/assets/posters/film3.jpg"
-        alt=""
         aria-hidden="true"
       />
 
